@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ehatid_passenger_app/Screens/Welcome/components/background.dart';
-import 'package:ehatid_passenger_app/Screens/Registration/components/signup_body.dart';
+import 'package:ehatid_passenger_app/Screens/Registration/sign_up.dart';
 
 class HomeBody extends StatelessWidget {
   @override
@@ -75,7 +75,7 @@ class HomeBody extends StatelessWidget {
               ),
               onPressed: () {
                 Navigator.push(
-                    context, MaterialPageRoute(builder: (context) => SignUpBody()));
+                    context, MaterialPageRoute(builder: (context) => SignUp()));
               },
             ),
           ),
@@ -105,7 +105,7 @@ class HomeBody extends StatelessWidget {
               ),
             ),
             onTap: () {
-              Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (BuildContext context)=>SignUpBody()));
+              Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (BuildContext context)=>SignUp()));
             },
           ),
         ],
