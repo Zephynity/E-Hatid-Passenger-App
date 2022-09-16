@@ -1,0 +1,49 @@
+description: "A new Flutter application."
+name: "ehatid_passenger_app"
+publish_to: "none"
+version: "1.0.0+1"
+dependencies:
+  cupertino_icons: "^1.0.5"
+  intro_slider: ^2.3.4
+  path_drawing: "^1.0.0"
+  flutter:
+    sdk: "flutter"
+dev_dependencies:
+  flutter_test:
+    sdk: "flutter"
+environment:
+  sdk: ">=2.17.0 <3.0.0"
+flutter:
+  assets:
+    - assets/images/
+  fonts:
+    -
+      family: "Rubik"
+      fonts:
+        -
+          asset: assets/fonts/Rubik-Regular.ttf
+          style: "normal"
+          weight: 400
+    -
+      family: "Montserrat"
+      fonts:
+        -
+          asset: assets/fonts/Montserrat-Bold.ttf
+          style: "normal"
+          weight: 900
+        -
+          asset: assets/fonts/Montserrat-Regular.ttf
+          style: "normal"
+        -
+          asset: assets/fonts/Montserrat-SemiBold.ttf
+          style: "normal"
+          weight: 500
+        -
+          asset: assets/fonts/Montserrat-Medium.ttf
+          style: "normal"
+          weight: 300
+        -
+          asset: assets/fonts/Montserrat-Regular.ttf
+          style: "italic"
+          weight: 500
+  uses-material-design: true
