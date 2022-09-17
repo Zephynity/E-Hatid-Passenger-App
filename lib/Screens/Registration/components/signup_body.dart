@@ -1,4 +1,7 @@
 import 'package:ehatid_passenger_app/Screens/Registration/components/signup_bg.dart';
+import 'package:ehatid_passenger_app/Screens/Registration/components/google_icon.dart';
+import 'package:ehatid_passenger_app/Screens/Registration/components/twitter_icon.dart';
+import 'package:ehatid_passenger_app/Screens/Registration/components/facebook_icon.dart';
 import 'package:ehatid_passenger_app/Screens/Registration/sign_up.dart';
 import 'package:flutter/material.dart';
 import 'package:intl_phone_number_input/intl_phone_number_input.dart';
@@ -134,6 +137,39 @@ class _SignUpBodyState extends State<SignUpBody> {
                       Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (BuildContext context)=>SignUp()));
                     },
                   ),
+                ),
+                Padding(
+                  padding: EdgeInsets.only(bottom: 5, top: 10),
+                  child: Text(
+                    "Or sign up using:",
+                    overflow: TextOverflow.visible,
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      height: 1.171875,
+                      fontSize: 12.0,
+                      fontFamily: 'Montserrat',
+                      fontWeight: FontWeight.w500,
+                      color: Color.fromARGB(255, 39, 39, 39),
+                      letterSpacing: -0.48,
+                    ),
+                  ),
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    GoogleIcon(
+                      iconSrc: "assets/images/gmail.png",
+                      press: (){},
+                    ),
+                    TwitterIcon(
+                      iconSrc: "assets/images/twitter.png",
+                      press: (){},
+                    ),
+                    FacebookIcon(
+                      iconSrc: "assets/images/facebook.png",
+                      press: (){},
+                    ),
+                  ],
                 ),
               ],
             ),
