@@ -14,17 +14,12 @@ class SignUpBackground extends StatelessWidget {
       resizeToAvoidBottomInset: true,
       backgroundColor: Color(0xFFFED90F),
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         elevation: 0,
         brightness: Brightness.light,
         backgroundColor: Color(0xFFFEDF3F),
-        leading: IconButton(
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          icon: Icon(Icons.arrow_back_ios, size: 20, color: Colors.black,),
-        ),
       ),
-    body: Center(
+    body: SingleChildScrollView(
       child: Stack(
         children: <Widget>[
           Container(

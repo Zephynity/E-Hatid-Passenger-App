@@ -1,4 +1,5 @@
 import 'package:ehatid_passenger_app/Screens/Registration/components/signup_bg.dart';
+import 'package:ehatid_passenger_app/Screens/Login/sign_in.dart';
 import 'package:ehatid_passenger_app/Screens/Registration/components/google_icon.dart';
 import 'package:ehatid_passenger_app/Screens/Registration/components/twitter_icon.dart';
 import 'package:ehatid_passenger_app/Screens/Registration/components/facebook_icon.dart';
@@ -134,7 +135,7 @@ class _SignUpBodyState extends State<SignUpBody> {
                       ),
                     ),
                     onTap: () {
-                      Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (BuildContext context)=>SignUp()));
+                      Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (BuildContext context)=>SignIn()));
                     },
                   ),
                 ),
