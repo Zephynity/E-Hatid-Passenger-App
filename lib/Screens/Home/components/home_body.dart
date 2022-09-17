@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:ehatid_passenger_app/Screens/Welcome/components/background.dart';
 import 'package:ehatid_passenger_app/Screens/Registration/sign_up.dart';
+import 'package:ehatid_passenger_app/Screens/Login/sign_in.dart';
 
 class HomeBody extends StatelessWidget {
   @override
@@ -105,7 +106,7 @@ class HomeBody extends StatelessWidget {
               ),
             ),
             onTap: () {
-              Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (BuildContext context)=>SignUp()));
+              Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (BuildContext context)=>SignIn()));
             },
           ),
         ],
