@@ -3,7 +3,7 @@ import 'package:intro_slider/dot_animation_enum.dart';
 import 'package:intro_slider/intro_slider.dart';
 import 'package:intro_slider/slide_object.dart';
 import 'package:ehatid_passenger_app/Screens/Registration/sign_up.dart';
-import 'package:ehatid_passenger_app/Screens/Welcome/components/background.dart';
+import 'package:ehatid_passenger_app/Screens/Home/components/home_bg.dart';
 
 class IntroSliderPage extends StatefulWidget {
   @override
@@ -35,7 +35,7 @@ class _IntroSliderPageState extends State<IntroSliderPage> {
       new Slide(
         title: "#1 Mobile-based app for tricycle booking",
         description: "Find and book your tricycle ride from Lourdes \n Terminal and get traveling.",
-        pathImage: "assets/images/n1mobile.png",
+        pathImage: "assets/images/ehatid logo.png",
       ),
     );
   }
@@ -112,7 +112,7 @@ class _IntroSliderPageState extends State<IntroSliderPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Background(
+    return HomeBackground(
       child: IntroSlider(
         renderSkipBtn: Text(
           "Skip",
