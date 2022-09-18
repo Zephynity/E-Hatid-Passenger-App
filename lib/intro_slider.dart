@@ -3,6 +3,7 @@ import 'package:intro_slider/dot_animation_enum.dart';
 import 'package:intro_slider/intro_slider.dart';
 import 'package:intro_slider/slide_object.dart';
 import 'package:ehatid_passenger_app/Screens/Registration/sign_up.dart';
+import 'package:ehatid_passenger_app/Screens/Welcome/components/background.dart';
 
 class IntroSliderPage extends StatefulWidget {
   @override
@@ -18,31 +19,23 @@ class _IntroSliderPageState extends State<IntroSliderPage> {
     super.initState();
     slides.add(
       new Slide(
-        title: "More Passengers",
-        description:
-        "No need to worry about getting passengers, \n as they will be able to connect directly to you",
-        pathImage: "assets/images/illus8.png",
+        title: "Book A Ride",
+        description: "Request a ride and get picked up by \n the nearest tricycle driver around you.",
+        pathImage: "assets/images/nearest.png",
       ),
     );
     slides.add(
       new Slide(
         title: "Convenient",
-        description: "Efficient way of acquiring new \n passengers for all stray tricycle drivers",
-        pathImage: "assets/images/illus2.png",
+        description: "Your tricycle ride is just one tap away.",
+        pathImage: "assets/images/tap.png",
       ),
     );
     slides.add(
       new Slide(
-        title: "Earn More",
-        description: "Higher revenue pay for maximizing \n every trip journey",
-        pathImage: "assets/images/illus11.png",
-      ),
-    );
-    slides.add(
-      new Slide(
-        title: "Accept a Job",
-        description: "Register in TODA G5 Terminal and \n experience your first trip.",
-        pathImage: "assets/images/ehatid logo.png",
+        title: "#1 Mobile-based app for tricycle booking",
+        description: "Find and book your tricycle ride from Lourdes \n Terminal and get traveling.",
+        pathImage: "assets/images/n1mobile.png",
       ),
     );
   }
@@ -72,7 +65,16 @@ class _IntroSliderPageState extends State<IntroSliderPage> {
                   margin: EdgeInsets.only(top: 5),
                   child: Text(
                     currentSlide.title.toString(),
-                    style: TextStyle(fontFamily: 'Montserrat', fontSize: 32, letterSpacing: -2, fontWeight: FontWeight.bold),
+                    overflow: TextOverflow.visible,
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      height: 1.171875,
+                      fontSize: 32,
+                      fontFamily: 'Montserrat',
+                      fontWeight: FontWeight.w700,
+                      color: Color.fromARGB(255, 32, 32, 32),
+                      letterSpacing: -1.6800000000000002,
+                    ),
                   ),
                 ),
                 Container(
@@ -82,7 +84,12 @@ class _IntroSliderPageState extends State<IntroSliderPage> {
                   child: Text(
                     currentSlide.description.toString(),
                     style: TextStyle(
-                        fontFamily: 'Montserrat', fontSize: 15, color: Color(0xff646262), letterSpacing: -0.5, fontWeight: FontWeight.w500
+                      height: 1.171875,
+                      fontSize: 15.0,
+                      fontFamily: 'Montserrat',
+                      fontWeight: FontWeight.w500,
+                      color: Color.fromARGB(255, 126, 126, 126),
+                      letterSpacing: -0.48,
                     ),
                     maxLines: 3,
                     textAlign: TextAlign.center,
@@ -105,29 +112,30 @@ class _IntroSliderPageState extends State<IntroSliderPage> {
 
   @override
   Widget build(BuildContext context) {
-    return IntroSlider(
-      backgroundColorAllSlides: Colors.yellow,
-      renderSkipBtn: Text(
-        "Skip",
-        style: TextStyle(fontFamily: 'Montserrat', fontSize: 20, color: Color(0xff8C8C8C)),
-      ),
-      renderNextBtn: Text(
-        "Next",
-        style: TextStyle(fontFamily: 'Montserrat', fontSize: 20, color: Colors.white),
-      ),
-      renderDoneBtn: Text(
-        "Done",
-        style: TextStyle(fontFamily: 'Montserrat', fontSize: 20, color: Colors.white),
-      ),
-      colorDot: Colors.white,
-      sizeDot: 10.0,
-      typeDotAnimation: dotSliderAnimation.SIZE_TRANSITION,
-      listCustomTabs: this.renderListCustomTabs(),
-      scrollPhysics: BouncingScrollPhysics(),
-      onDonePress: () => Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-          builder: (_) => SignUp(),
+    return Background(
+      child: IntroSlider(
+        renderSkipBtn: Text(
+          "Skip",
+          style: TextStyle(fontFamily: 'Montserrat', fontSize: 20, color: Color(0xff8C8C8C)),
+        ),
+        renderNextBtn: Text(
+          "Next",
+          style: TextStyle(fontFamily: 'Montserrat', fontSize: 20, color: Colors.white),
+        ),
+        renderDoneBtn: Text(
+          "Done",
+          style: TextStyle(fontFamily: 'Montserrat', fontSize: 20, color: Colors.white),
+        ),
+        colorDot: Colors.white,
+        sizeDot: 10.0,
+        typeDotAnimation: dotSliderAnimation.SIZE_TRANSITION,
+        listCustomTabs: this.renderListCustomTabs(),
+        scrollPhysics: BouncingScrollPhysics(),
+        onDonePress: () => Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (_) => SignUp(),
+          ),
         ),
       ),
     );
