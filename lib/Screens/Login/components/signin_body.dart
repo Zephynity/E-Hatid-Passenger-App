@@ -1,3 +1,4 @@
+import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:ehatid_passenger_app/Screens/Login/components/signin_bg.dart';
 import 'package:ehatid_passenger_app/Screens/Login/sign_in.dart';
@@ -39,21 +40,45 @@ class SignInBody extends StatelessWidget {
                 ),
               ),
             ),
-            Text(
-              "Welcome Back! Ready for your next ride?",
-              overflow: TextOverflow.visible,
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                height: 1.171875,
-                fontSize: 12.0,
-                fontFamily: 'Montserrat',
-                fontWeight: FontWeight.w500,
-                color: Color.fromARGB(255, 39, 39, 39),
-                letterSpacing: -0.48,
+            Padding(
+              padding: EdgeInsets.only(bottom: 15),
+              child: Text(
+                "Welcome Back! Ready for your next ride?",
+                overflow: TextOverflow.visible,
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  height: 1.171875,
+                  fontSize: 12.0,
+                  fontFamily: 'Montserrat',
+                  fontWeight: FontWeight.w500,
+                  color: Color.fromARGB(255, 39, 39, 39),
+                  letterSpacing: -0.48,
+                ),
               ),
             ),
-            Container( //Email
-                margin: const EdgeInsets.symmetric(vertical: 15),
+            FadeInDown(
+              child: Container( //Email
+                  margin: const EdgeInsets.symmetric(vertical: 15),
+                  padding: EdgeInsets.symmetric(horizontal: 5, vertical: 5),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    boxShadow: [
+                      BoxShadow(
+                          color: Color(0xffeeeeee),
+                          blurRadius: 10,
+                          offset: Offset(0,4)
+                      ),
+                    ],
+                    borderRadius: BorderRadius.circular(15),
+                  ),
+                  child: InputField(
+                    hintText: "Username or Mobile Number",
+                    onChanged: (value) {},
+                  )
+              ),
+            ),
+            FadeInDown(
+              child: Container(
                 padding: EdgeInsets.symmetric(horizontal: 5, vertical: 5),
                 decoration: BoxDecoration(
                   color: Colors.white,
@@ -65,71 +90,58 @@ class SignInBody extends StatelessWidget {
                     ),
                   ],
                   borderRadius: BorderRadius.circular(15),
+                  //border: Border.all(color: Colors.black.withOpacity(0.13))
                 ),
-                child: InputField(
-                  hintText: "Username or Mobile Number",
+                child: PasswordField(
                   onChanged: (value) {},
-                )
-            ),
-            Container(
-              padding: EdgeInsets.symmetric(horizontal: 5, vertical: 5),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                boxShadow: [
-                  BoxShadow(
-                      color: Color(0xffeeeeee),
-                      blurRadius: 10,
-                      offset: Offset(0,4)
-                  ),
-                ],
-                borderRadius: BorderRadius.circular(15),
-                //border: Border.all(color: Colors.black.withOpacity(0.13))
-              ),
-              child: PasswordField(
-                onChanged: (value) {},
-              ),
-            ),
-            Container(
-              padding: EdgeInsets.symmetric(horizontal: 0, vertical: 25),
-              child: MaterialButton(
-                onPressed: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => SignIn()));
-                },
-                color: Color(0xFFFED90F),
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(50)
-                ),
-                padding: EdgeInsets.symmetric(vertical: 20, horizontal: 30),
-                minWidth: double.infinity,
-                child: Text("Sign in", style: TextStyle(
-                    color: Colors.white, fontFamily: 'Montserrat', fontSize: 16
-                ),
                 ),
               ),
             ),
-            Container(
-              padding: EdgeInsets.symmetric(horizontal: 20, vertical: 0),
-              child:Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text("Don't have an account yet?", style: TextStyle(
-                      color: Color(0xFF494949), fontFamily: 'Montserrat', fontSize: 16, letterSpacing: -0.5, fontWeight: FontWeight.w500
+            FadeInDown(
+              child: Container(
+                padding: EdgeInsets.symmetric(horizontal: 0, vertical: 25),
+                child: MaterialButton(
+                  onPressed: () {
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => SignIn()));
+                  },
+                  color: Color(0xFFFED90F),
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(50)
+                  ),
+                  padding: EdgeInsets.symmetric(vertical: 20, horizontal: 30),
+                  minWidth: double.infinity,
+                  child: Text("Sign in", style: TextStyle(
+                      color: Colors.white, fontFamily: 'Montserrat', fontSize: 16
                   ),
                   ),
-                  TextButton(
-                    onPressed: () {
-                      Navigator.pushReplacement(context, MaterialPageRoute(
-                        builder: (_) => SignUp(),
+                ),
+              ),
+            ),
+            FadeInDown(
+              child: Container(
+                padding: EdgeInsets.symmetric(horizontal: 20, vertical: 0),
+                child:Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text("Don't have an account yet?", style: TextStyle(
+                        color: Color(0xFF494949), fontFamily: 'Montserrat', fontSize: 16, letterSpacing: -0.5, fontWeight: FontWeight.w500
+                    ),
+                    ),
+                    TextButton(
+                      onPressed: () {
+                        Navigator.pushReplacement(context, MaterialPageRoute(
+                          builder: (_) => SignUp(),
+                        ),
+                        );
+                      },
+                      child: Text("Register", style: TextStyle(fontFamily: 'Montserrat', fontSize: 16,
+                        letterSpacing: -0.5, fontWeight: FontWeight.w600,
+                        decoration: TextDecoration.underline, color:Color(0xFFFEDF3F),
                       ),
-                      );
-                    },
-                    child: Text("Register", style: TextStyle(fontFamily: 'Montserrat', fontSize: 16,
-                      letterSpacing: -0.5, fontWeight: FontWeight.w600,
-                      decoration: TextDecoration.underline, color:Color(0xFFFEDF3F),
+                      ),
                     ),
-                    ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
           ],
