@@ -92,9 +92,7 @@ class SignInBody extends StatelessWidget {
                   borderRadius: BorderRadius.circular(15),
                   //border: Border.all(color: Colors.black.withOpacity(0.13))
                 ),
-                child: PasswordField(
-                  onChanged: (value) {},
-                ),
+                child: PasswordField(),
               ),
             ),
             FadeInDown(
@@ -207,35 +205,57 @@ class TextFieldContainer extends StatelessWidget {
   }
 }
 
-class PasswordField extends StatelessWidget {
-  final ValueChanged<String> onChanged;
+class PasswordField extends StatefulWidget {
+
+  @override
+  _PasswordFieldState createState() => _PasswordFieldState();
+}
+
+class _PasswordFieldState extends State<PasswordField> {
+
+  final formkey = GlobalKey<FormState>();
+  bool _isHidden = true;
+  /*final ValueChanged<String> onChanged;
   const PasswordField({
     Key? key,
     required this.onChanged,
-  }) : super(key: key);
+  }) : super(key: key);*/
 
   @override
   Widget build(BuildContext context) {
     return TextFieldContainer(
-      child: TextField(
-        obscureText: true,
-        onChanged: onChanged,
-        decoration: InputDecoration(
-          hintText: "Password",
-          hintStyle: TextStyle( color: Color(0xbc000000),
-            fontSize: 15,
-            fontFamily: "Montserrat",
-            fontWeight: FontWeight.w400,),
-          icon: Icon(Icons.lock,
-            color: Color(0xffCCCCCC),
+      child: Form(
+        key: formkey,
+        child: TextField(
+          obscureText: _isHidden,
+          decoration: InputDecoration(
+            hintText: "Password",
+            hintStyle: TextStyle( color: Color(0xbc000000),
+              fontSize: 15,
+              fontFamily: "Montserrat",
+              fontWeight: FontWeight.w400,),
+            icon: Icon(Icons.lock,
+              color: Color(0xffCCCCCC),
+            ),
+            suffixIcon: InkWell(
+              onTap: _togglePasswordView,
+              child: Icon(
+                _isHidden
+                    ? Icons.visibility
+                    : Icons.visibility_off,
+                color: Color(0xffCCCCCC),
+              ),
+            ),
+            border: InputBorder.none,
           ),
-          suffixIcon: Icon
-            (Icons.visibility,
-            color: Color(0xffCCCCCC),
-          ),
-          border: InputBorder.none,
         ),
       ),
     );
+  }
+
+  void _togglePasswordView() {
+    setState(() {
+      _isHidden = !_isHidden;
+    });
   }
 }
