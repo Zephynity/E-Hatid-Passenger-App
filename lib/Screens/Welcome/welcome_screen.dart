@@ -26,6 +26,9 @@ class _WelcomeScreen extends State<WelcomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(body: Body(),);
+    return Scaffold(
+      backgroundColor: Color.fromARGB(255, 245, 245, 245),
+      body: Body(),
+    );
   }
 }

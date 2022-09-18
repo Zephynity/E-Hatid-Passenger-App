@@ -10,7 +10,7 @@ class Body extends StatelessWidget{
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget> [
-          Image.asset("assets/images/ehatid logo.png",
+          Image.asset("assets/images/ehatid logo1.png",
             height: size.height * 0.3,
           ),
           Text(
