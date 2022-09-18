@@ -10,17 +10,23 @@ class Body extends StatelessWidget{
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget> [
-          Image.asset("assets/images/ehatid logo1.png",
-            height: size.height * 0.3,
+          Padding(
+            padding: EdgeInsets.only(top: 250),
+            child: Image.asset("assets/images/ehatid logo1.png",
+              height: size.height * 0.3,
+            ),
           ),
-          Text(
-            "Version 1.1.1",
-            style: TextStyle(
+          Padding(
+            padding: EdgeInsets.only(top: 250),
+            child: Text(
+              "Version 1.1.1",
+              style: TextStyle(
                 height: 1.171875,
                 fontFamily: 'Rubik',
                 fontSize: 12,
                 fontWeight: FontWeight.w400,
                 color: Color.fromARGB(255, 39, 39, 39),
+              ),
             ),
           ),
         ],
