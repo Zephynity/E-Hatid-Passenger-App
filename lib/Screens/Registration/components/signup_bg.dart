@@ -40,7 +40,7 @@ class SignUpBackground extends StatelessWidget {
                   left: 0,
                   child: Image.asset(
                     "assets/images/vector_bottom.png",
-                    width: size.width * 0.7,
+                    width: size.width,
                   ),
                 ),
                 child,

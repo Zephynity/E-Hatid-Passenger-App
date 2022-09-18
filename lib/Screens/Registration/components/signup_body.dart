@@ -23,7 +23,7 @@ class _SignUpBodyState extends State<SignUpBody> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget> [
           Image.asset("assets/images/regLogo.png",
-            height: size.height * 0.3,
+            width: 200,
           ),
           Padding(
             padding: EdgeInsets.only(bottom: 5, top: 10),
@@ -47,7 +47,7 @@ class _SignUpBodyState extends State<SignUpBody> {
             textAlign: TextAlign.center,
             style: TextStyle(
               height: 1.171875,
-              fontSize: 12.0,
+              fontSize: 13,
               fontFamily: 'Montserrat',
               fontWeight: FontWeight.w500,
               color: Color.fromARGB(255, 39, 39, 39),
@@ -121,13 +121,13 @@ class _SignUpBodyState extends State<SignUpBody> {
                   ),),
                 ),
                 Padding(
-                  padding: EdgeInsets.only(bottom: 90, top: 15),
+                  padding: EdgeInsets.only(bottom: 50, top: 15),
                   child: GestureDetector(
                     child: Text("I have an account already",
                       style: TextStyle(
                         fontFamily: 'Montserrat',
                         height: 1.171875,
-                        fontSize: 12.0,
+                        fontSize: 16.0,
                         fontWeight: FontWeight.w500,
                         color: Color.fromARGB(255, 39, 39, 39),
                         decoration: TextDecoration.underline,
@@ -139,22 +139,7 @@ class _SignUpBodyState extends State<SignUpBody> {
                     },
                   ),
                 ),
-                Padding(
-                  padding: EdgeInsets.only(bottom: 5, top: 10),
-                  child: Text(
-                    "Or sign up using:",
-                    overflow: TextOverflow.visible,
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      height: 1.171875,
-                      fontSize: 12.0,
-                      fontFamily: 'Montserrat',
-                      fontWeight: FontWeight.w500,
-                      color: Color.fromARGB(255, 39, 39, 39),
-                      letterSpacing: -0.48,
-                    ),
-                  ),
-                ),
+                OrDivider(),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
@@ -178,6 +163,44 @@ class _SignUpBodyState extends State<SignUpBody> {
         ],
       ),
 
+    );
+  }
+}
+
+class OrDivider extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
+    return Container(
+      margin: EdgeInsets.symmetric(vertical: 10),
+      width: size.width * 0.8,
+      child: Row(
+        children: <Widget> [
+          buildDivider(),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
+            child: Text("Or sign up using",
+              style: TextStyle(
+                height: 1.171875,
+                fontSize: 14.0,
+                fontFamily: 'Montserrat',
+                fontWeight: FontWeight.w500,
+                color: Color.fromARGB(255, 39, 39, 39),
+                letterSpacing: -0.48,
+            ),
+            ),
+          ),
+          buildDivider(),
+        ],
+      ),
+    );
+  }
+
+  Expanded buildDivider() {
+    return Expanded(
+      child: Divider(
+        color: Color(0xFF272727),
+      ),
     );
   }
 }
