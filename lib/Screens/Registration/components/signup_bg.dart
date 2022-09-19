@@ -10,16 +10,9 @@ class SignUpBackground extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    return Scaffold(
-      resizeToAvoidBottomInset: true,
-      backgroundColor: Color(0xFFFED90F),
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        elevation: 0,
-        brightness: Brightness.light,
-        backgroundColor: Color(0xFFFEDF3F),
-      ),
-    body: SingleChildScrollView(
+    return Container(
+      height: size.height,
+      width: double.infinity,
       child: Stack(
         children: <Widget>[
           Container(
@@ -48,7 +41,7 @@ class SignUpBackground extends StatelessWidget {
             ),
           ),
         ],
-      )),
+      ),
     );
   }
 }

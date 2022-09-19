@@ -4,6 +4,11 @@ import 'package:flutter/material.dart';
 class SignUp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(body: SignUpBody(),);
+    return Scaffold(
+      backgroundColor: Color(0xFFFED90F),
+      body: SingleChildScrollView(
+        child: SignUpBody(),
+      ),
+    );
   }
 }
