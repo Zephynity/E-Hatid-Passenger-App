@@ -23,8 +23,11 @@ class _SignUpBodyState extends State<SignUpBody> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget> [
-          Image.asset("assets/images/regLogo.png",
-            width: 200,
+          Padding(
+            padding: EdgeInsets.only(top: 100),
+            child: Image.asset("assets/images/regLogo.png",
+              width: 200,
+            ),
           ),
           Padding(
             padding: EdgeInsets.only(bottom: 5, top: 10),
