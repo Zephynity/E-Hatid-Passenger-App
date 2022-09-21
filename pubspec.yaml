@@ -14,7 +14,6 @@ dependencies:
   firebase_core: ^1.22.0
   firebase_auth: ^3.9.0
   cloud_firestore: ^3.4.8
-  path_drawing: "^1.0.0"
   pinput: ^2.2.12
   flutter:
     sdk: "flutter"

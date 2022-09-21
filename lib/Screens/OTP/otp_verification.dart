@@ -20,6 +20,7 @@ class _OtpBodyState extends State<OtpBody> {
   final TextEditingController _pinOTPCodeController = TextEditingController();
   final FocusNode _pinOTPCodeFocus = FocusNode();
   String? verificationCode;
+  String pin = " ";
 
   final defaultPinTheme = PinTheme(
     width: 56,
@@ -96,6 +97,21 @@ class _OtpBodyState extends State<OtpBody> {
       },
       timeout: Duration(seconds: 60),
     );
+  }
+
+  Future<void> verifyOTP() async {
+    await FirebaseAuth.instance.signInWithCredential(
+      PhoneAuthProvider.credential(
+        verificationId: verificationCode!,
+        smsCode: pin,
+      ),
+    ).whenComplete(() {
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(
+          builder: (context) => const RegisterPage(),
+        ),
+      );
+    });
   }
 
   @override
@@ -189,6 +205,11 @@ class _OtpBodyState extends State<OtpBody> {
                         showCursor: true,
                         cursor: cursor,
                         preFilledWidget: preFilledWidget,
+                        onChanged: (value) {
+                          setState(() {
+                            pin = value;
+                          });
+                        },
                         onSubmitted: (pin) async {
                           try{
                             await FirebaseAuth.instance
@@ -268,9 +289,20 @@ class _OtpBodyState extends State<OtpBody> {
                       },
                     ),
                   ),
-                  /*
+                  const SizedBox(height: 50,),
                   MaterialButton(
-                    onPressed: (){},
+                    onPressed: (){
+                      if(pin.length >= 6) {
+                        verifyOTP();
+                      } else {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text("Invalid OTP!"),
+                            duration: Duration(seconds: 3),
+                          ),
+                        );
+                      }
+                    },
                     color: Colors.black,
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(50)
@@ -284,7 +316,7 @@ class _OtpBodyState extends State<OtpBody> {
                         fontSize: 16,
                       ),
                     ),
-                  ),*/
+                  ),
                 ],
               ),
             ),

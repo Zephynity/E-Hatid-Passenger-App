@@ -61,7 +61,7 @@ class _SignInState extends State<SignIn> {
               ),
               SingleChildScrollView(
                 child: Container(
-                  margin: const EdgeInsets.fromLTRB(10, 100, 10, 0),
+                  margin: const EdgeInsets.fromLTRB(10, 60, 10, 0),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
