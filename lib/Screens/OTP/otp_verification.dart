@@ -1,6 +1,5 @@
 import 'package:ehatid_passenger_app/Screens/Login/components/register.dart';
 import 'package:ehatid_passenger_app/Screens/Registration/sign_up.dart';
-import 'package:ehatid_passenger_app/homescreen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -197,7 +196,7 @@ class _OtpBodyState extends State<OtpBody> {
                                 .credential(verificationId: verificationCode!, smsCode: pin))
                                 .then((value) {
                               if(value.user != null){
-                                Navigator.of(context).push(MaterialPageRoute(builder: (c) => HomeScreen()));
+                                Navigator.of(context).push(MaterialPageRoute(builder: (c) => RegisterPage()));
                               }
                             });
                           }

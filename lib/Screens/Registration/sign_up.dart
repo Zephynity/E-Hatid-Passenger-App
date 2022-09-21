@@ -1,6 +1,6 @@
 import 'package:animate_do/animate_do.dart';
-import 'package:ehatid_passenger_app/Screens/Login/sign_in.dart';
 import 'package:ehatid_passenger_app/Screens/OTP/otp_verification.dart';
+import 'package:ehatid_passenger_app/main_page.dart';
 import 'package:flutter/material.dart';
 import 'package:intl_phone_number_input/intl_phone_number_input.dart';
 
@@ -130,11 +130,11 @@ class _SignUpState extends State<SignUp> {
                                         fontFamily: 'Montserrat',
                                         fontSize: 16,
                                         fontWeight: FontWeight.w400,
-                                      ),
+                                      ),/*
                                       prefix: Padding(
                                         padding: EdgeInsets.all(4),
                                         child: Text(dialCodeDigits),
-                                      )
+                                      )*/
                                   ),
                                 ),
                                 Positioned(
@@ -155,11 +155,25 @@ class _SignUpState extends State<SignUp> {
                       FadeInDown(
                         child: MaterialButton(
                           onPressed: (){
-                            Navigator.push(context,
-                                MaterialPageRoute(builder: (context) => OtpBody(
-                                  phone: phoneController.text,
-                                  codeDigits: dialCodeDigits,
-                                )));
+                            if(phoneController.text.isEmpty) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                    content: Text("Phone number is still empty!")
+                                ),
+                              );
+                            } else if(phoneController.text.length != 10) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                    content: Text("Invalid phone number!")
+                                ),
+                              );
+                            } else {
+                              Navigator.push(context,
+                                  MaterialPageRoute(builder: (context) => OtpBody(
+                                    phone: phoneController.text,
+                                    codeDigits: dialCodeDigits,
+                                  )));
+                            }
                           },
                           color: Colors.black,
                           shape: RoundedRectangleBorder(
@@ -195,7 +209,7 @@ class _SignUpState extends State<SignUp> {
                               Navigator.of(context).pushReplacement(
                                   MaterialPageRoute(
                                       builder: (BuildContext context) =>
-                                          SignIn()));
+                                          MainPage()));
                             },
                           ),
                         ),

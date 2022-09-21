@@ -52,7 +52,7 @@ class _SignInState extends State<SignIn> {
                   children: <Widget>[
                     Positioned(
                       top: 0,
-                      child: Image.asset("assets/images/Vector 4.png",
+                      child: Image.asset("assets/images/Vector 2.png",
                         width: size.width,
                       ),
                     ),
@@ -61,16 +61,19 @@ class _SignInState extends State<SignIn> {
               ),
               SingleChildScrollView(
                 child: Container(
-                  margin: const EdgeInsets.fromLTRB(10, 60, 10, 0),
+                  margin: const EdgeInsets.fromLTRB(10, 100, 10, 0),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Image.asset("assets/images/illus14.png",
+                      Image.asset("assets/images/loginLogo.png",
                           width: 250
                       ),
-                      Text(
-                        "Sign in to your account",
-                        style: TextStyle(fontFamily: 'Montserrat', fontSize: 28, letterSpacing: -2, fontWeight: FontWeight.bold),
+                      Padding(
+                        padding: EdgeInsets.only(top: 10),
+                        child: Text(
+                          "Sign in to your account",
+                          style: TextStyle(fontFamily: 'Montserrat', fontSize: 28, letterSpacing: -2, fontWeight: FontWeight.bold),
+                        ),
                       ),
                       SizedBox(height: 10),
                       Text(
