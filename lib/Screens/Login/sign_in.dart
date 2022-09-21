@@ -1,4 +1,6 @@
 import 'package:ehatid_passenger_app/Screens/Login/components/forget_pw.dart';
+import 'package:ehatid_passenger_app/homescreen.dart';
+import 'package:ehatid_passenger_app/main_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:ehatid_passenger_app/Screens/Registration/sign_up.dart';
@@ -22,7 +24,13 @@ class _SignInState extends State<SignIn> {
     await FirebaseAuth.instance.signInWithEmailAndPassword(
       email: _emailController.text.trim(),
       password: _passwordController.text.trim(),
-    );
+    ).whenComplete((){
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(
+            builder: (context) => const MainPage(),
+        ),
+      );
+    });
   }
 
   @override
@@ -164,7 +172,22 @@ class _SignInState extends State<SignIn> {
                       ),
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 25),
-                        child: GestureDetector(
+                        child: MaterialButton(
+                          onPressed: signIn,
+                          color: Color(0xFFFED90F),
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(50)
+                          ),
+                          padding: EdgeInsets.symmetric(vertical: 20),
+                          minWidth: double.infinity,
+                          child: Text("Sign in",
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontFamily: 'Montserrat',
+                              fontSize: 16,
+                            ),
+                          ),
+                        ),/*GestureDetector(
                           onTap: signIn,
                           child: Container(
                             padding: EdgeInsets.all(20),
@@ -181,7 +204,7 @@ class _SignInState extends State<SignIn> {
                               ),
                             ),
                           ),
-                        ),
+                        ),*/
                       ),
                       SizedBox(height: 100),
                       Row(

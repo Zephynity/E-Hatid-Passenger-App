@@ -1,8 +1,8 @@
+import 'package:ehatid_passenger_app/Screens/Registration/sign_up.dart';
 import 'package:flutter/material.dart';
 import 'package:intro_slider/dot_animation_enum.dart';
 import 'package:intro_slider/intro_slider.dart';
 import 'package:intro_slider/slide_object.dart';
-import 'package:ehatid_passenger_app/Screens/Registration/sign_up.dart';
 import 'package:ehatid_passenger_app/Screens/Home/components/home_bg.dart';
 
 class IntroSliderPage extends StatefulWidget {
