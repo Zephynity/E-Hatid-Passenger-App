@@ -187,47 +187,32 @@ class _SignInState extends State<SignIn> {
                               fontSize: 16,
                             ),
                           ),
-                        ),/*GestureDetector(
-                          onTap: signIn,
-                          child: Container(
-                            padding: EdgeInsets.all(20),
-                            decoration: BoxDecoration(
-                              color: Color(0xFFFED90F),
-                              borderRadius: BorderRadius.circular(50),
-                            ),
-                            child: Center(
-                              child: Text(
-                                "Sign in",
-                                style: TextStyle(
-                                    color: Colors.white, fontFamily: 'Montserrat', fontSize: 16
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),*/
+                        ),
                       ),
-                      SizedBox(height: 100),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text("Don't have an account yet?", style: TextStyle(
-                              color: Color(0xFF494949), fontFamily: 'Montserrat', fontSize: 15, letterSpacing: -0.5, fontWeight: FontWeight.w500
-                          ),
-                          ),
-                          TextButton(
-                            onPressed: () {
-                              Navigator.pushReplacement(context, MaterialPageRoute(
-                                builder: (_) => SignUp(),
+                      Align(
+                        alignment: Alignment.bottomCenter,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text("Don't have an account yet?", style: TextStyle(
+                                color: Color(0xFF494949), fontFamily: 'Montserrat', fontSize: 15, letterSpacing: -0.5, fontWeight: FontWeight.w500
+                            ),
+                            ),
+                            TextButton(
+                              onPressed: () {
+                                Navigator.pushReplacement(context, MaterialPageRoute(
+                                  builder: (_) => SignUp(),
+                                ),
+                                );
+                              },
+                              child: Text("Register", style: TextStyle(fontFamily: 'Montserrat', fontSize: 16,
+                                letterSpacing: -0.5, fontWeight: FontWeight.w600,
+                                decoration: TextDecoration.underline, color:Color(0xFFFEDF3F),
                               ),
-                              );
-                            },
-                            child: Text("Register", style: TextStyle(fontFamily: 'Montserrat', fontSize: 16,
-                              letterSpacing: -0.5, fontWeight: FontWeight.w600,
-                              decoration: TextDecoration.underline, color:Color(0xFFFEDF3F),
+                              ),
                             ),
-                            ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     ],
                   ),

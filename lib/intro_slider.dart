@@ -1,3 +1,4 @@
+import 'package:ehatid_passenger_app/Screens/Login/components/register.dart';
 import 'package:ehatid_passenger_app/Screens/Registration/sign_up.dart';
 import 'package:flutter/material.dart';
 import 'package:intro_slider/dot_animation_enum.dart';
