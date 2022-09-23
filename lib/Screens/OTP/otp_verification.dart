@@ -1,4 +1,5 @@
 import 'package:ehatid_passenger_app/Screens/Login/components/register.dart';
+import 'package:ehatid_passenger_app/Screens/OTP/otp_verified.dart';
 import 'package:ehatid_passenger_app/Screens/Registration/sign_up.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -73,7 +74,7 @@ class _OtpBodyState extends State<OtpBody> {
       verificationCompleted: (PhoneAuthCredential credential) async{
         await FirebaseAuth.instance.signInWithCredential(credential).then((value){
           if(value.user != null){
-            Navigator.of(context).push(MaterialPageRoute(builder: (c) => RegisterPage()));
+            Navigator.of(context).push(MaterialPageRoute(builder: (c) => OtpVerified()));
           }
         });
       },
@@ -108,7 +109,7 @@ class _OtpBodyState extends State<OtpBody> {
     ).whenComplete(() {
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(
-          builder: (context) => const RegisterPage(),
+          builder: (context) => const OtpVerified(),
         ),
       );
     });
@@ -217,7 +218,7 @@ class _OtpBodyState extends State<OtpBody> {
                                 .credential(verificationId: verificationCode!, smsCode: pin))
                                 .then((value) {
                               if(value.user != null){
-                                Navigator.of(context).push(MaterialPageRoute(builder: (c) => RegisterPage()));
+                                Navigator.of(context).push(MaterialPageRoute(builder: (c) => OtpVerified()));
                               }
                             });
                           }
@@ -289,31 +290,33 @@ class _OtpBodyState extends State<OtpBody> {
                       },
                     ),
                   ),
-                  const SizedBox(height: 50,),
-                  MaterialButton(
-                    onPressed: (){
-                      if(pin.length >= 6) {
-                        verifyOTP();
-                      } else {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            content: Text("Invalid OTP!"),
-                            duration: Duration(seconds: 3),
-                          ),
-                        );
-                      }
-                    },
-                    color: Colors.black,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(50)
-                    ),
-                    padding: EdgeInsets.symmetric(vertical: 20),
-                    minWidth: double.infinity,
-                    child: Text("Verify number",
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontFamily: 'Montserrat',
-                        fontSize: 16,
+                  Align(
+                    alignment: Alignment.bottomCenter,
+                    child: MaterialButton(
+                      onPressed: (){
+                        if(pin.length >= 6) {
+                          verifyOTP();
+                        } else {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text("Invalid OTP!"),
+                              duration: Duration(seconds: 3),
+                            ),
+                          );
+                        }
+                      },
+                      color: Colors.black,
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(50)
+                      ),
+                      padding: EdgeInsets.symmetric(vertical: 20),
+                      minWidth: double.infinity,
+                      child: Text("Verify number",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontFamily: 'Montserrat',
+                          fontSize: 16,
+                        ),
                       ),
                     ),
                   ),

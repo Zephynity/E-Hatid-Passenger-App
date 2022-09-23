@@ -28,7 +28,9 @@ class _WelcomeScreen extends State<WelcomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Color.fromARGB(255, 245, 245, 245),
-      body: Body(),
+      body: SingleChildScrollView(
+        child: Body(),
+      ),
     );
   }
 }
