@@ -1,21 +1,20 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:ehatid_passenger_app/Screens/Login/components/register2.dart';
 import 'package:ehatid_passenger_app/Screens/Login/sign_in.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:email_validator/email_validator.dart';
 
-class RegisterPage extends StatefulWidget {
+class RegisterPage2 extends StatefulWidget {
   // final VoidCallback showLoginPage;
-  const RegisterPage({
+  const RegisterPage2({
     Key? key,
   }) : super(key: key);
 
   @override
-  State<RegisterPage> createState() => _RegisterPageState();
+  State<RegisterPage2> createState() => _RegisterPage2State();
 }
 
-class _RegisterPageState extends State<RegisterPage> {
+class _RegisterPage2State extends State<RegisterPage2> {
 
   //text controller
   final _emailController = TextEditingController();
@@ -76,6 +75,8 @@ class _RegisterPageState extends State<RegisterPage> {
   }
 
   final formkey = GlobalKey<FormState>();
+  bool _isHidden = true;
+  bool _isHidden1 = true;
 
   @override
   Widget build(BuildContext context) {
@@ -121,14 +122,13 @@ class _RegisterPageState extends State<RegisterPage> {
                             children: <Widget> [
                               SizedBox(width: 20),
                               Text(
-                                "Personal Details", textAlign: TextAlign.center,
+                                "Account Details", textAlign: TextAlign.center,
                                 style: TextStyle(
                                     fontFamily: 'Montserrat',
                                     fontSize: 24,
                                     color: Color.fromARGB(255, 33, 33, 33),
                                     letterSpacing: -0.5,
-                                    fontWeight: FontWeight.w700
-                                ),
+                                    fontWeight: FontWeight.w700),
                               ),
                               Image.asset("assets/images/personal.png",
                                 width: 50,
@@ -147,7 +147,7 @@ class _RegisterPageState extends State<RegisterPage> {
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 25),
                           child: TextFormField(
-                            controller: _firstNameController,
+                            controller: _userNameController,
                             decoration: InputDecoration(
                               enabledBorder: OutlineInputBorder(
                                 borderSide: BorderSide(color: Colors.white),
@@ -157,7 +157,7 @@ class _RegisterPageState extends State<RegisterPage> {
                                 borderSide: BorderSide(color: Color(0xFFFED90F),),
                                 borderRadius: BorderRadius.circular(15),
                               ),
-                              hintText: "First Name",
+                              hintText: "Username",
                               hintStyle: TextStyle( color: Color(0xbc000000),
                                 fontSize: 15,
                                 fontFamily: "Montserrat",
@@ -167,10 +167,11 @@ class _RegisterPageState extends State<RegisterPage> {
                             ),
                             validator: (value) {
                               if(value!.isEmpty){
-                                return 'Please enter your first name.';
-                              } else {
-                                return null;
+                                return 'Please enter your username.';
+                              } else if(value.length < 4) {
+                                return "Choose a username with 4 or more characters.";
                               }
+                              return null;
                             },
                           ),
                         ),
@@ -178,7 +179,8 @@ class _RegisterPageState extends State<RegisterPage> {
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 25),
                           child: TextFormField(
-                            controller: _lastNameController,
+                            controller: _passwordController,
+                            obscureText: _isHidden,
                             decoration: InputDecoration(
                               enabledBorder: OutlineInputBorder(
                                 borderSide: BorderSide(color: Colors.white),
@@ -188,7 +190,16 @@ class _RegisterPageState extends State<RegisterPage> {
                                 borderSide: BorderSide(color: Color(0xFFFED90F),),
                                 borderRadius: BorderRadius.circular(15),
                               ),
-                              hintText: "Last Name",
+                              hintText: "Password",
+                              suffixIcon: InkWell(
+                                onTap: _togglePasswordView,
+                                child: Icon(
+                                  _isHidden
+                                      ? Icons.visibility
+                                      : Icons.visibility_off,
+                                  color: Color(0xffCCCCCC),
+                                ),
+                              ),
                               hintStyle: TextStyle( color: Color(0xbc000000),
                                 fontSize: 15,
                                 fontFamily: "Montserrat",
@@ -198,47 +209,20 @@ class _RegisterPageState extends State<RegisterPage> {
                             ),
                             validator: (value) {
                               if(value!.isEmpty){
-                                return 'Please enter your last name.';
-                              } else {
-                                return null;
+                                return 'Please enter your password.';
+                              } else if (value.length < 8) {
+                                return "Length of password must be 8 or greater.";
                               }
+                              return null;
                             },
                           ),
                         ),
-                        SizedBox(height: 40),
-                        Align(
-                          alignment: Alignment(-1, 0),
-                          child: Row(
-                            children: <Widget> [
-                              SizedBox(width: 20),
-                              Text(
-                                "Contact Details", textAlign: TextAlign.center,
-                                style: TextStyle(
-                                    fontFamily: 'Montserrat',
-                                    fontSize: 24,
-                                    color: Color.fromARGB(255, 33, 33, 33),
-                                    letterSpacing: -0.5,
-                                    fontWeight: FontWeight.w700
-                                ),
-                              ),
-                              Image.asset("assets/images/contact.png",
-                                width: 50,
-                              ),
-                            ],
-                          ),
-                        ),
-                        Divider(
-                          color: Colors.black,
-                          height: 0,
-                          thickness: 2,
-                          indent: 20,
-                          endIndent: 20,
-                        ),
-                        SizedBox(height: 20),
+                        SizedBox(height: 10),
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 25),
                           child: TextFormField(
-                            controller: _emailController,
+                            controller: _confirmpasswordController,
+                            obscureText: _isHidden1,
                             decoration: InputDecoration(
                               enabledBorder: OutlineInputBorder(
                                 borderSide: BorderSide(color: Colors.white),
@@ -248,7 +232,16 @@ class _RegisterPageState extends State<RegisterPage> {
                                 borderSide: BorderSide(color: Color(0xFFFED90F),),
                                 borderRadius: BorderRadius.circular(15),
                               ),
-                              hintText: "Email",
+                              hintText: "Confirm Password",
+                              suffixIcon: InkWell(
+                                onTap: _toggleConfirmPasswordView,
+                                child: Icon(
+                                  _isHidden1
+                                      ? Icons.visibility
+                                      : Icons.visibility_off,
+                                  color: Color(0xffCCCCCC),
+                                ),
+                              ),
                               hintStyle: TextStyle( color: Color(0xbc000000),
                                 fontSize: 15,
                                 fontFamily: "Montserrat",
@@ -256,10 +249,16 @@ class _RegisterPageState extends State<RegisterPage> {
                               fillColor: Colors.white,
                               filled: true,
                             ),
-                            validator: (email) =>
-                            email != null && !EmailValidator.validate(email)
-                                ? 'Enter a valid email'
-                                : null,
+                            validator: (value) {
+                              if(value!.isEmpty){
+                                return 'Please re-enter your password.';
+                              } else if (value.length < 8) {
+                                return "Length of password must be 8 or greater.";
+                              } else if(value != _passwordController.text) {
+                                return "Password mismatch.";
+                              }
+                              return null;
+                            },
                           ),
                         ),
                         SizedBox(height: 20),
@@ -268,8 +267,10 @@ class _RegisterPageState extends State<RegisterPage> {
                           child: MaterialButton(
                             onPressed: (){
                               if(formkey.currentState!.validate()){
-                                Navigator.of(context).pushReplacement(MaterialPageRoute(
-                                    builder: (BuildContext context) => RegisterPage2()));
+                                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                                  content: Text("Success"),
+                                ));
+                                signUp();
                               }
                             },
                             color: Color(0xFFFED90F),
@@ -278,7 +279,7 @@ class _RegisterPageState extends State<RegisterPage> {
                             ),
                             padding: EdgeInsets.symmetric(vertical: 20),
                             minWidth: double.infinity,
-                            child: Text("Next",
+                            child: Text("Submit",
                               style: TextStyle(
                                 color: Colors.white,
                                 fontFamily: 'Montserrat',
@@ -320,5 +321,17 @@ class _RegisterPageState extends State<RegisterPage> {
         ),
       ),
     );
+  }
+
+  void _togglePasswordView() {
+    setState(() {
+      _isHidden = !_isHidden;
+    });
+  }
+
+  void _toggleConfirmPasswordView() {
+    setState(() {
+      _isHidden1 = !_isHidden1;
+    });
   }
 }
