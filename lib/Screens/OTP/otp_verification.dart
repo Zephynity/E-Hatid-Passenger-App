@@ -147,11 +147,9 @@ class _OtpBodyState extends State<OtpBody> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
-                  Padding(
-                    padding: EdgeInsets.only(top: 100),
-                    child: Image.asset("assets/images/mini logo.png",
-                      width: size.width * 0.2,
-                    ),
+                  SizedBox(height: 50),
+                  Image.asset("assets/images/mini logo.png",
+                    width: size.width * 0.2,
                   ),
                   Padding(
                     padding: EdgeInsets.only(bottom: 5, top: 10),
@@ -320,6 +318,7 @@ class _OtpBodyState extends State<OtpBody> {
                       ),
                     ),
                   ),
+                  SizedBox(height: 30),
                 ],
               ),
             ),

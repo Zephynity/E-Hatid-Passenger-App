@@ -1,6 +1,5 @@
 import 'dart:async';
-
-import 'package:ehatid_passenger_app/Screens/Home/home.dart';
+import 'package:ehatid_passenger_app/Screens/IntroSlider/intro.dart';
 import 'package:ehatid_passenger_app/Screens/Welcome/components/body.dart';
 import 'package:flutter/material.dart';
 

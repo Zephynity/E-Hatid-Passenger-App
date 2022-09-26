@@ -270,7 +270,7 @@ class _RegisterPage2State extends State<RegisterPage2> {
                                 ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                                   content: Text("Success"),
                                 ));
-                                signUp();
+                                signUp;
                               }
                             },
                             color: Color(0xFFFED90F),

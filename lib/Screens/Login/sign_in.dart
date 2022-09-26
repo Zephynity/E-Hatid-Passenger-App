@@ -1,9 +1,10 @@
 import 'package:ehatid_passenger_app/Screens/Login/components/forget_pw.dart';
-import 'package:ehatid_passenger_app/homescreen.dart';
+import 'package:ehatid_passenger_app/Screens/Home/homescreen.dart';
 import 'package:ehatid_passenger_app/main_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:ehatid_passenger_app/Screens/Registration/sign_up.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SignIn extends StatefulWidget {
   const SignIn({
@@ -21,6 +22,8 @@ class _SignInState extends State<SignIn> {
   final _passwordController = TextEditingController();
 
   Future signIn() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    await preferences.setInt('initScreen', 1);
     await FirebaseAuth.instance.signInWithEmailAndPassword(
       email: _emailController.text.trim(),
       password: _passwordController.text.trim(),

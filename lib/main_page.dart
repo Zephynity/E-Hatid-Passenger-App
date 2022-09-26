@@ -1,5 +1,5 @@
 import 'package:ehatid_passenger_app/Screens/Login/sign_in.dart';
-import 'package:ehatid_passenger_app/homescreen.dart';
+import 'package:ehatid_passenger_app/Screens/Home/homescreen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 

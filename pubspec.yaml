@@ -16,6 +16,8 @@ dependencies:
   cloud_firestore: ^3.4.8
   pinput: ^2.2.12
   email_validator: ^2.1.16
+  flutter_screenutil: ^5.5.4
+  shared_preferences: ^2.0.15
   flutter:
     sdk: "flutter"
   supercharged: ^2.1.1

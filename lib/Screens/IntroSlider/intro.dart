@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:ehatid_passenger_app/intro_slider.dart';
+import 'package:ehatid_passenger_app/Screens/IntroSlider/components/intro_slider.dart';
 
 
 class HomeScreen extends StatefulWidget {

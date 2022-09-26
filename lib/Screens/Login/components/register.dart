@@ -266,11 +266,11 @@ class _RegisterPageState extends State<RegisterPage> {
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 25),
                           child: MaterialButton(
-                            onPressed: (){
-                              if(formkey.currentState!.validate()){
+                            onPressed: (){ signUp;
+                              /*if(formkey.currentState!.validate()){
                                 Navigator.of(context).pushReplacement(MaterialPageRoute(
                                     builder: (BuildContext context) => RegisterPage2()));
-                              }
+                              }*/
                             },
                             color: Color(0xFFFED90F),
                             shape: RoundedRectangleBorder(
