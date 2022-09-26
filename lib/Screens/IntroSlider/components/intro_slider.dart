@@ -1,5 +1,7 @@
+import 'package:ehatid_passenger_app/Screens/Home/homescreen.dart';
 import 'package:ehatid_passenger_app/Screens/IntroSlider/components/home_bg.dart';
 import 'package:ehatid_passenger_app/Screens/Registration/sign_up.dart';
+import 'package:ehatid_passenger_app/testing_page.dart';
 import 'package:flutter/material.dart';
 import 'package:intro_slider/dot_animation_enum.dart';
 import 'package:intro_slider/intro_slider.dart';

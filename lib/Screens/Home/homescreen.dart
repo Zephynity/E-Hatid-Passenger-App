@@ -34,64 +34,108 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Theme(
       data: Theme.of(context).copyWith(canvasColor: Color(0xFFFFFCEA)),
-      child: new Scaffold(
-        appBar: new AppBar(
+      child: Scaffold(
+        appBar: AppBar(
           title: Text("Home"),
           backgroundColor: Color(0xFFFED90F),
         ),
         backgroundColor: Color(0xFFFFFCEA),
-        drawer: new Drawer(
-          child: ListView(
+        drawer: Drawer(
+          child: Column(
             children: <Widget>[
-              new UserAccountsDrawerHeader(
-                decoration: BoxDecoration(
-                  color: Color(0xFFFED90F),
-                ),
-                accountName: new Text('Machu'),
-                accountEmail: new Text(user.email!),
-                currentAccountPicture: new CircleAvatar(
-                  radius: 50.0,
-                  backgroundImage: AssetImage("assets/images/machu.jpg"),
+              Expanded(
+                child: ListView(
+                  children: <Widget>[
+                    UserAccountsDrawerHeader(
+                      decoration: BoxDecoration(
+                        color: Color(0xFFFED90F),
+                      ),
+                      accountName: new Text('Machu'),
+                      accountEmail: new Text(user.email!),
+                      currentAccountPicture: new CircleAvatar(
+                        radius: 50.0,
+                        backgroundImage: AssetImage("assets/images/machu.jpg"),
+                      ),
+                    ),
+                    ListTile(
+                      title: new Text("Account"),
+                      onTap: (){},
+                      leading: Icon(
+                        Icons.account_circle_sharp,
+                      ),
+                      trailing: Icon(
+                        Icons.arrow_right,
+                      ),
+                    ),
+                    ListTile(
+                      title: new Text("FAQ"),
+                      onTap: (){},
+                      leading: Icon(
+                        Icons.question_answer_outlined,
+                      ),
+                      trailing: Icon(
+                        Icons.arrow_right,
+                      ),
+                    ),
+                    ListTile(
+                      title: new Text("How To Use App"),
+                      onTap: (){},
+                      leading: Icon(
+                        Icons.info_outline_rounded,
+                      ),
+                      trailing: Icon(
+                        Icons.arrow_right,
+                      ),
+                    ),
+                    ListTile(
+                      title: new Text("Settings"),
+                      onTap: (){},
+                      leading: Icon(
+                        Icons.settings,
+                      ),
+                      trailing: Icon(
+                        Icons.arrow_right,
+                      ),
+                    ),
+                    ListTile(
+                      title: new Text("Terms & Conditions"),
+                      onTap: (){},
+                      leading: Icon(
+                        Icons.book,
+                      ),
+                      trailing: Icon(
+                        Icons.arrow_right,
+                      ),
+                    ),
+                  ],
                 ),
               ),
-              new ListTile(
-                title: new Text("Account"),
-                onTap: (){},
-                leading: Icon(
-                  Icons.account_circle_sharp,
-                ),
-                trailing: Icon(
-                  Icons.arrow_right,
-                ),
-              ),
-              new ListTile(
-                title: new Text("Settings"),
-                onTap: (){},
-                leading: Icon(
-                  Icons.settings,
-                ),
-                trailing: Icon(
-                  Icons.arrow_right,
-                ),
-              ),
-              new ListTile(
-                title: new Text("Terms & Conditions"),
-                onTap: (){},
-                leading: Icon(
-                  Icons.book,
-                ),
-                trailing: Icon(
-                  Icons.arrow_right,
-                ),
-              ),
-              new ListTile(
-                title: new Text("Sign Out"),
-                onTap: () async => await _signOut(),
-                leading: Icon(
-                  Icons.logout,
-                ),
-                trailing: Icon(
-                  Icons.arrow_right,
+              Container(
+                child: Column(
+                  children: <Widget>[
+                    Container(
+                      child: Align(
+                        alignment: FractionalOffset.bottomCenter,
+                        child: Container(
+                          child: Column(
+                            children: <Widget>[
+                              Divider(),
+                              ListTile(
+                                title: Text("Sign Out"),
+                                onTap: () async => await _signOut(),
+                                leading: Icon(
+                                  Icons.logout,
+                                ),
+                                trailing: Icon(
+                                  Icons.arrow_right,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ],
