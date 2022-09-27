@@ -1,6 +1,8 @@
 import 'package:ehatid_passenger_app/Screens/Home/homescreen.dart';
 import 'package:ehatid_passenger_app/Screens/IntroSlider/components/home_bg.dart';
+import 'package:ehatid_passenger_app/Screens/Login/components/register.dart';
 import 'package:ehatid_passenger_app/Screens/Registration/sign_up.dart';
+import 'package:ehatid_passenger_app/test_map.dart';
 import 'package:ehatid_passenger_app/testing_page.dart';
 import 'package:flutter/material.dart';
 import 'package:intro_slider/dot_animation_enum.dart';
@@ -136,7 +138,7 @@ class _IntroSliderPageState extends State<IntroSliderPage> {
         onDonePress: () => Navigator.pushReplacement(
           context,
           MaterialPageRoute(
-            builder: (_) => SignUp(),
+            builder: (_) => TestMap(),
           ),
         ),
       ),

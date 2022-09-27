@@ -62,6 +62,7 @@ class _HomePageState extends State<HomePage> {
                       onTap: (){},
                       leading: Icon(
                         Icons.account_circle_sharp,
+                        color: Color(0xFFFED90F),
                       ),
                       trailing: Icon(
                         Icons.arrow_right,
