@@ -138,7 +138,7 @@ class _IntroSliderPageState extends State<IntroSliderPage> {
         onDonePress: () => Navigator.pushReplacement(
           context,
           MaterialPageRoute(
-            builder: (_) => TestMap(),
+            builder: (_) => SignUp(),
           ),
         ),
       ),

@@ -1,8 +1,12 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'dart:async';
 import 'package:ehatid_passenger_app/Screens/Login/sign_in.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:ehatid_passenger_app/constants.dart';
+import 'package:flutter_polyline_points/flutter_polyline_points.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:location/location.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -15,6 +19,47 @@ class _HomePageState extends State<HomePage> {
   final user = FirebaseAuth.instance.currentUser!;
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
 
+  final Completer<GoogleMapController> _controller = Completer();
+
+  static const LatLng sourceLocation = LatLng(37.33500962, -122.03272188);
+  static const LatLng destination = LatLng(37.33429383, -122.06600055);
+
+  List<LatLng> polylineCoordinates = [];
+  LocationData? currentLocation;
+
+  void getCurrentLocation () {
+    Location location = Location();
+
+    location.getLocation().then((location) {
+      currentLocation = location;
+    },);
+  }
+
+  void getPolyPoints() async {
+    PolylinePoints polylinePoints = PolylinePoints();
+
+    PolylineResult result = await polylinePoints.getRouteBetweenCoordinates(
+        google_api_key,
+        PointLatLng(sourceLocation.latitude, sourceLocation.longitude),
+        PointLatLng(destination.latitude, destination.longitude)
+    );
+
+    if (result.points.isNotEmpty) {
+      result.points.forEach((PointLatLng point) => polylineCoordinates.add(
+          LatLng(point.latitude, point.longitude)),
+      );
+      setState(() {
+
+      });
+    }
+  }
+
+  @override
+  void initState() {
+    getCurrentLocation();
+    getPolyPoints();
+    super.initState();
+  }
 
   Future<void> _signOut() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
@@ -142,13 +187,37 @@ class _HomePageState extends State<HomePage> {
             ],
           ),
         ),
-        body: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text("Signed in as: " + user.email!),
-            ],
+        body: currentLocation == null
+            ? const Center(child: Text("Loading"))
+            : GoogleMap(
+          initialCameraPosition: CameraPosition(
+            target: LatLng(
+                currentLocation!.latitude!, currentLocation!.longitude!
+            ),
+            zoom: 14.5,
           ),
+          polylines: {
+            Polyline(
+              polylineId: PolylineId("route"),
+              points: polylineCoordinates,
+              color: Color(0xFF7B61FF),
+              width: 6,
+            ),
+          },
+          markers: {
+            Marker(
+              markerId: const MarkerId("currentLocation"),
+              position: LatLng(currentLocation!.latitude!, currentLocation!.longitude!),
+            ),
+            const Marker(
+              markerId: MarkerId("source"),
+              position: sourceLocation,
+            ),
+            const Marker(
+              markerId: MarkerId("destination"),
+              position: destination,
+            ),
+          },
         ),
       ),
     );

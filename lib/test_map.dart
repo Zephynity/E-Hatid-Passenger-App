@@ -4,6 +4,7 @@ import 'package:ehatid_passenger_app/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:location/location.dart';
 
 class TestMap extends StatefulWidget {
   const TestMap({Key? key}) : super(key: key);
@@ -19,6 +20,15 @@ class _TestMapState extends State<TestMap> {
   static const LatLng destination = LatLng(37.33429383, -122.06600055);
 
   List<LatLng> polylineCoordinates = [];
+  LocationData? currentLocation;
+
+  void getCurrentLocation () {
+    Location location = Location();
+
+    location.getLocation().then((location) {
+      currentLocation = location;
+    },);
+  }
 
   void getPolyPoints() async {
     PolylinePoints polylinePoints = PolylinePoints();
@@ -41,6 +51,7 @@ class _TestMapState extends State<TestMap> {
 
   @override
   void initState() {
+    getCurrentLocation();
     getPolyPoints();
     super.initState();
   }
@@ -53,9 +64,13 @@ class _TestMapState extends State<TestMap> {
           style: TextStyle(color: Colors.black),
         ),
       ),
-      body: GoogleMap(
+      body: currentLocation == null
+          ? const Center(child: Text("Loading"))
+          : GoogleMap(
         initialCameraPosition: CameraPosition(
-          target: sourceLocation,
+          target: LatLng(
+              currentLocation!.latitude!, currentLocation!.longitude!
+          ),
           zoom: 14.5,
         ),
         polylines: {
@@ -67,6 +82,10 @@ class _TestMapState extends State<TestMap> {
           ),
         },
         markers: {
+          Marker(
+            markerId: const MarkerId("currentLocation"),
+            position: LatLng(currentLocation!.latitude!, currentLocation!.longitude!),
+          ),
           const Marker(
             markerId: MarkerId("source"),
             position: sourceLocation,
