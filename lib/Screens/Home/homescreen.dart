@@ -1,5 +1,8 @@
 import 'dart:async';
+import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:ehatid_passenger_app/Screens/Login/sign_in.dart';
+import 'package:ehatid_passenger_app/test_map.dart';
+import 'package:ehatid_passenger_app/testing_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -7,6 +10,11 @@ import 'package:ehatid_passenger_app/constants.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
+
+import 'package:location/location.dart' as loc;
+import 'package:location/location.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'dart:math' show cos, sqrt, asin;
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -19,46 +27,29 @@ class _HomePageState extends State<HomePage> {
   final user = FirebaseAuth.instance.currentUser!;
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
 
-  final Completer<GoogleMapController> _controller = Completer();
+  bool _activeButton = true;
 
-  static const LatLng sourceLocation = LatLng(37.33500962, -122.03272188);
-  static const LatLng destination = LatLng(37.33429383, -122.06600055);
-
-  List<LatLng> polylineCoordinates = [];
-  LocationData? currentLocation;
-
-  void getCurrentLocation () {
-    Location location = Location();
-
-    location.getLocation().then((location) {
-      currentLocation = location;
-    },);
-  }
-
-  void getPolyPoints() async {
-    PolylinePoints polylinePoints = PolylinePoints();
-
-    PolylineResult result = await polylinePoints.getRouteBetweenCoordinates(
-        google_api_key,
-        PointLatLng(sourceLocation.latitude, sourceLocation.longitude),
-        PointLatLng(destination.latitude, destination.longitude)
-    );
-
-    if (result.points.isNotEmpty) {
-      result.points.forEach((PointLatLng point) => polylineCoordinates.add(
-          LatLng(point.latitude, point.longitude)),
-      );
-      setState(() {
-
-      });
-    }
-  }
+  final Completer<GoogleMapController?> _controller = Completer();
+  Map<PolylineId, Polyline> polylines = {};
+  PolylinePoints polylinePoints = PolylinePoints();
+  Location location = Location();
+  Marker? sourcePosition, destinationPosition;
+  loc.LocationData? _currentPosition;
+  LatLng curLocation = LatLng(23.0525, 72.5667);
+  StreamSubscription<loc.LocationData>? locationSubscription;
 
   @override
   void initState() {
-    getCurrentLocation();
-    getPolyPoints();
+    // TODO: implement initState
     super.initState();
+    getNavigation();
+    addMarker();
+  }
+
+  @override
+  void dispose() {
+    locationSubscription?.cancel();
+    super.dispose();
   }
 
   Future<void> _signOut() async {
@@ -75,16 +66,22 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
+  void toggle_activeButton() {
+    setState(() {
+      _activeButton = !_activeButton;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Theme(
       data: Theme.of(context).copyWith(canvasColor: Color(0xFFFFFCEA)),
       child: Scaffold(
+        backgroundColor: Color(0xFFFFFCEA),
         appBar: AppBar(
           title: Text("Home"),
           backgroundColor: Color(0xFFFED90F),
         ),
-        backgroundColor: Color(0xFFFFFCEA),
         drawer: Drawer(
           child: Column(
             children: <Widget>[
@@ -187,39 +184,204 @@ class _HomePageState extends State<HomePage> {
             ],
           ),
         ),
-        body: currentLocation == null
-            ? const Center(child: Text("Loading"))
-            : GoogleMap(
-          initialCameraPosition: CameraPosition(
-            target: LatLng(
-                currentLocation!.latitude!, currentLocation!.longitude!
-            ),
-            zoom: 14.5,
+        floatingActionButton: FloatingActionButton.extended(
+          onPressed: (){
+            toggle_activeButton();
+            showDialog(
+              context: context,
+              builder: (context) => AlertDialog(
+                title: Text("List of Nearby Passengers",
+                  style: TextStyle(fontFamily: 'Montserrat', fontSize: 16, letterSpacing: -1, fontWeight: FontWeight.bold),
+                  textAlign: TextAlign.center,
+                ),
+                content: Text(
+                  "---Passengers---",
+                  style: TextStyle(fontFamily: 'Montserrat', fontSize: 12, letterSpacing: 2, fontStyle: FontStyle.italic),
+                  textAlign: TextAlign.center,
+                ),
+                actions: [
+                  TextButton(
+                      onPressed: () => Navigator.pop(context),
+                      child: Text("CANCEL"),
+                  ),
+                ],
+              ),
+            );
+          },
+          label: Text(
+            _activeButton
+                ? 'Go Online'
+                : 'Go Offline',
           ),
-          polylines: {
-            Polyline(
-              polylineId: PolylineId("route"),
-              points: polylineCoordinates,
-              color: Color(0xFF7B61FF),
-              width: 6,
+          backgroundColor: Color(
+            _activeButton
+                ? 0xFF0CBC8B
+                : 0xFFE74338,
+          ),
+          icon: Icon(Icons.power_settings_new_rounded),
+        ),
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+        body: sourcePosition == null
+            ? Center(child: CircularProgressIndicator())
+            : Stack(
+          children: [
+            GoogleMap(
+              zoomControlsEnabled: false,
+              polylines: Set<Polyline>.of(polylines.values),
+              initialCameraPosition: CameraPosition(
+                target: curLocation,
+                zoom: 16,
+              ),
+              markers: {sourcePosition!, destinationPosition!},
+              onTap: (latLng) {
+                print(latLng);
+              },
+              onMapCreated: (GoogleMapController controller) {
+                _controller.complete(controller);
+              },
             ),
-          },
-          markers: {
-            Marker(
-              markerId: const MarkerId("currentLocation"),
-              position: LatLng(currentLocation!.latitude!, currentLocation!.longitude!),
-            ),
-            const Marker(
-              markerId: MarkerId("source"),
-              position: sourceLocation,
-            ),
-            const Marker(
-              markerId: MarkerId("destination"),
-              position: destination,
-            ),
-          },
+            Positioned(
+                bottom: 10,
+                right: 10,
+                child: Container(
+                  width: 50,
+                  height: 50,
+                  decoration: BoxDecoration(
+                      shape: BoxShape.circle, color: Colors.blue),
+                  child: Center(
+                    child: IconButton(
+                      icon: Icon(
+                        Icons.navigation_outlined,
+                        color: Colors.white,
+                      ),
+                      onPressed: () async {
+                        await launchUrl(Uri.parse(
+                            'google.navigation:q=(13.793034, 121.0710068)&key=AIzaSyCGZt0_a-TM1IKRQOLJCaMJsV0ZXuHl7Io'));
+                      },
+                    ),
+                  ),
+                ))
+          ],
         ),
       ),
     );
+  }
+
+  getNavigation() async {
+    bool _serviceEnabled;
+    PermissionStatus _permissionGranted;
+    final GoogleMapController? controller = await _controller.future;
+    location.changeSettings(accuracy: loc.LocationAccuracy.high);
+    _serviceEnabled = await location.serviceEnabled();
+
+    if (!_serviceEnabled) {
+      _serviceEnabled = await location.requestService();
+      if (!_serviceEnabled) {
+        return;
+      }
+    }
+
+    _permissionGranted = await location.hasPermission();
+    if (_permissionGranted == PermissionStatus.denied) {
+      _permissionGranted = await location.requestPermission();
+      if (_permissionGranted != PermissionStatus.granted) {
+        return;
+      }
+    }
+    if (_permissionGranted == loc.PermissionStatus.granted) {
+      _currentPosition = await location.getLocation();
+      curLocation =
+          LatLng(_currentPosition!.latitude!, _currentPosition!.longitude!);
+      locationSubscription =
+          location.onLocationChanged.listen((LocationData currentLocation) {
+            controller?.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(
+              target: LatLng(currentLocation.latitude!, currentLocation.longitude!),
+              zoom: 16,
+            )));
+            if (mounted) {
+              controller
+                  ?.showMarkerInfoWindow(MarkerId(sourcePosition!.markerId.value));
+              setState(() {
+                curLocation =
+                    LatLng(currentLocation.latitude!, currentLocation.longitude!);
+                sourcePosition = Marker(
+                  markerId: MarkerId(currentLocation.toString()),
+                  icon: BitmapDescriptor.defaultMarkerWithHue(
+                      BitmapDescriptor.hueBlue),
+                  position:
+                  LatLng(currentLocation.latitude!, currentLocation.longitude!),
+                  infoWindow: InfoWindow(
+                      title: '${double.parse(
+                          (getDistance(LatLng(13.793034, 121.0710068))
+                              .toStringAsFixed(2)))} km'
+                  ),
+                  onTap: () {
+                    print('market tapped');
+                  },
+                );
+              });
+              getDirections(LatLng(13.793034, 121.0710068));
+            }
+          });
+    }
+  }
+
+  getDirections(LatLng dst) async {
+    List<LatLng> polylineCoordinates = [];
+    List<dynamic> points = [];
+    PolylineResult result = await polylinePoints.getRouteBetweenCoordinates(
+        'AIzaSyCGZt0_a-TM1IKRQOLJCaMJsV0ZXuHl7Io',
+        PointLatLng(curLocation.latitude, curLocation.longitude),
+        PointLatLng(dst.latitude, dst.longitude),
+        travelMode: TravelMode.driving);
+    if (result.points.isNotEmpty) {
+      result.points.forEach((PointLatLng point) {
+        polylineCoordinates.add(LatLng(point.latitude, point.longitude));
+        points.add({'lat': point.latitude, 'lng': point.longitude});
+      });
+    } else {
+      print(result.errorMessage);
+    }
+    addPolyLine(polylineCoordinates);
+  }
+
+  addPolyLine(List<LatLng>polylineCoordinates) {
+    PolylineId id = PolylineId('poly');
+    Polyline polyline = Polyline(
+      polylineId: id,
+      color: Colors.blue,
+      points: polylineCoordinates,
+      width: 5,
+    );
+    polylines[id] = polyline;
+    setState(() {});
+  }
+
+  double calculateDistance(lat1, lon1, lat2, lon2) {
+    var p = 0.017453292519943295;
+    var c = cos;
+    var a = 0.5 -
+        c((lat2 - lat1) * p) / 2 +
+        c(lat1 * p) * c(lat2 * p) * (1 - c((lon2 - lon1) * p)) / 2;
+    return 12742 * asin(sqrt(a));
+  }
+
+  double getDistance(LatLng destposition) {
+    return calculateDistance(curLocation.latitude, curLocation.longitude,
+        destposition.latitude, destposition.longitude);
+  }
+  addMarker() {
+    setState(() {
+      sourcePosition = Marker(
+        markerId: MarkerId('source'),
+        position: curLocation,
+        icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueAzure),
+      );
+      destinationPosition = Marker(
+        markerId: MarkerId('destination'),
+        position: LatLng(13.793034, 121.0710068),
+        icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueCyan),
+      );
+    });
   }
 }

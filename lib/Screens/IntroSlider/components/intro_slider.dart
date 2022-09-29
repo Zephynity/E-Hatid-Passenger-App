@@ -2,6 +2,8 @@ import 'package:ehatid_passenger_app/Screens/Home/homescreen.dart';
 import 'package:ehatid_passenger_app/Screens/IntroSlider/components/home_bg.dart';
 import 'package:ehatid_passenger_app/Screens/Login/components/register.dart';
 import 'package:ehatid_passenger_app/Screens/Registration/sign_up.dart';
+import 'package:ehatid_passenger_app/Screens/Wallet/wallet.dart';
+import 'package:ehatid_passenger_app/navigation.dart';
 import 'package:ehatid_passenger_app/test_map.dart';
 import 'package:ehatid_passenger_app/testing_page.dart';
 import 'package:flutter/material.dart';

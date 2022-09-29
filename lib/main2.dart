@@ -1,8 +1,6 @@
 import 'package:ehatid_passenger_app/Screens/Welcome/welcome_screen.dart';
 import 'package:ehatid_passenger_app/constants.dart';
 import 'package:ehatid_passenger_app/Screens/Home/homescreen.dart';
-import 'package:ehatid_passenger_app/navigation.dart';
-import 'package:ehatid_passenger_app/testing_page.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -38,7 +36,7 @@ class MyApp extends StatelessWidget {
       //home: IntroSliderPage(),
       initialRoute: initScreen == 0 ? 'welcome' : 'homepage', // paltan ang login ng homepage
       routes: {
-        'homepage' : (context) => Navigation(),
+        'homepage' : (context) => HomePage(),
         'welcome' : (context) => WelcomeScreen(),
       },
     );

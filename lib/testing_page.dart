@@ -1,126 +1,118 @@
-import 'package:flutter/foundation.dart';
+import 'package:animate_do/animate_do.dart';
+import 'package:ehatid_passenger_app/Screens/Home/homescreen.dart';
+import 'package:ehatid_passenger_app/Screens/Login/components/register.dart';
+import 'package:ehatid_passenger_app/Screens/OTP/otp_verification.dart';
+import 'package:ehatid_passenger_app/main_page.dart';
+import 'package:ehatid_passenger_app/test_map.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:intl_phone_number_input/intl_phone_number_input.dart';
 
-enum Page { screenDashboard, screenProfile, screenSearch }
 
-extension on Page {
-  String get route => describeEnum(this);
+class Test extends StatefulWidget {
+  @override
+  _TestState createState() => _TestState();
 }
 
-class Test extends StatelessWidget {
+Color rectColor = Color(0xff000000);
+Size rectSize = Size(200, 150);
+
+class _TestState extends State<Test> {
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'BackStack Support App',
-      home: MainBodyApp(),
-    );
-  }
-}
-
-class MainBodyApp extends HookWidget {
-  final Map<Page, Widget> _fragments = {
-    Page.screenDashboard: DashboardPage(),
-    Page.screenProfile: UserProfilePage(),
-    Page.screenSearch: SearchPage(),
-  };
-
-  @override
-  Widget build(BuildContext context) {
-    final navigatorKey = GlobalObjectKey<NavigatorState>(context);
-
-    return WillPopScope(
-      onWillPop: () async {
-        if (navigatorKey.currentState!.canPop()) {
-          navigatorKey.currentState!.pop();
-          return false;
-        }
-
-        return true;
-      },
-      child: Scaffold(
-        appBar: AppBar(
-          title: Text('BackStack Screen'),
-        ),
-        body: Container(
-          child: Column(
-            children: <Widget>[
-              Expanded(
-                child: Navigator(
-                  key: navigatorKey,
-                  initialRoute: Page.screenDashboard.route,
-                  onGenerateRoute: (settings) {
-                    final pageName = settings.name;
-
-                    final page = _fragments.keys.firstWhere(
-                            (element) => describeEnum(element) == pageName);
-
-
-                  },
-                ),
-              ),
-              Container(
-                width: double.infinity,
-                height: 50.0,
-                padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                color: Colors.indigo[400],
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: <Widget>[
-                    ElevatedButton(
-                      onPressed: () => navigatorKey.currentState
-                          ?.pushNamed(Page.screenDashboard.route),
-                      child: Text('Dashboard'),
-                    ),
-                    ElevatedButton(
-                      onPressed: () => navigatorKey.currentState
-                          ?.pushNamed(Page.screenProfile.route),
-                      child: Text('Profile'),
-                    ),
-                    ElevatedButton(
-                      onPressed: () => navigatorKey.currentState
-                          ?.pushNamed(Page.screenSearch.route),
-                      child: Text('Search'),
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
+      theme: ThemeData(
+          colorSchemeSeed: const Color(0xff6750a4), useMaterial3: true),
+      home: Scaffold(
+        appBar: AppBar(title: const Text('Card Examples')),
+        body: Column(
+          children: const <Widget>[
+            Spacer(),
+            ElevatedCardExample(),
+            FilledCardExample(),
+            OutlinedCardExample(),
+            Spacer(),
+          ],
         ),
       ),
     );
   }
 }
 
-class UserProfilePage extends StatelessWidget {
+/// An example of the elevated card type.
+///
+/// The default settings for [Card] will provide an elevated
+/// card matching the spec:
+///
+/// https://m3.material.io/components/cards/specs#a012d40d-7a5c-4b07-8740-491dec79d58b
+class ElevatedCardExample extends StatelessWidget {
+  const ElevatedCardExample({super.key});
+
   @override
   Widget build(BuildContext context) {
-    return Container(
-      alignment: Alignment.center,
-      child: Text(' screenProfile ...'),
+    return const Center(
+      child: Card(
+        child: SizedBox(
+          width: 300,
+          height: 100,
+          child: Center(child: Text('Elevated Card')),
+        ),
+      ),
     );
   }
 }
 
-class DashboardPage extends StatelessWidget {
+/// An example of the filled card type.
+///
+/// To make a [Card] match the filled type, the default elevation and color
+/// need to be changed to the values from the spec:
+///
+/// https://m3.material.io/components/cards/specs#0f55bf62-edf2-4619-b00d-b9ed462f2c5a
+class FilledCardExample extends StatelessWidget {
+  const FilledCardExample({super.key});
+
   @override
   Widget build(BuildContext context) {
-    return Container(
-      alignment: Alignment.center,
-      child: Text(' screenDashboard ...'),
+    return Center(
+      child: Card(
+        elevation: 0,
+        color: Theme.of(context).colorScheme.surfaceVariant,
+        child: const SizedBox(
+          width: 300,
+          height: 100,
+          child: Center(child: Text('Filled Card')),
+        ),
+      ),
     );
   }
 }
 
-class SearchPage extends StatelessWidget {
+/// An example of the outlined card type.
+///
+/// To make a [Card] match the outlined type, the default elevation and shape
+/// need to be changed to the values from the spec:
+///
+/// https://m3.material.io/components/cards/specs#0f55bf62-edf2-4619-b00d-b9ed462f2c5a
+class OutlinedCardExample extends StatelessWidget {
+  const OutlinedCardExample({super.key});
+
   @override
   Widget build(BuildContext context) {
-    return Container(
-      alignment: Alignment.center,
-      child: Text(' screenSearch ...'),
+    return Center(
+      child: Card(
+        elevation: 0,
+        shape: RoundedRectangleBorder(
+          side: BorderSide(
+            color: Theme.of(context).colorScheme.outline,
+          ),
+          borderRadius: const BorderRadius.all(Radius.circular(12)),
+        ),
+        child: const SizedBox(
+          width: 300,
+          height: 100,
+          child: Center(child: Text('Outlined Card')),
+        ),
+      ),
     );
   }
 }
-
