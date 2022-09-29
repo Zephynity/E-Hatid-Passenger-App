@@ -42,14 +42,15 @@ class _NavigationState extends State<Navigation> {
             Icon((myindex == 3) ? Icons.circle_notifications_outlined : Icons.circle_notifications , size: 30,),
           ],
           height: 60,
-          backgroundColor: Color(0xFFFCF7E1),
-          color: Color(0xFFFED90F),
-          animationDuration: Duration(milliseconds: 300),
+          backgroundColor: Color(0xFFFED90F),
+          color: Color(0xFFE6E4E0),
+          buttonBackgroundColor: Color(0xFFFFBA4C),
           onTap: (index){
             setState(() {
               myindex = index;
             });
           },
+          animationCurve: Curves.fastLinearToSlowEaseIn,
         ),
         body: PagesAll[myindex],
       ),

@@ -1,18 +1,15 @@
 import 'dart:async';
-import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:ehatid_passenger_app/Screens/Login/sign_in.dart';
-import 'package:ehatid_passenger_app/test_map.dart';
-import 'package:ehatid_passenger_app/testing_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:ehatid_passenger_app/constants.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
 
 import 'package:location/location.dart' as loc;
 import 'package:location/location.dart';
+import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'dart:math' show cos, sqrt, asin;
 
@@ -26,6 +23,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   final user = FirebaseAuth.instance.currentUser!;
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
+  final panelController = PanelController();
 
   bool _activeButton = true;
 
@@ -37,6 +35,11 @@ class _HomePageState extends State<HomePage> {
   loc.LocationData? _currentPosition;
   LatLng curLocation = LatLng(23.0525, 72.5667);
   StreamSubscription<loc.LocationData>? locationSubscription;
+  
+  static const double OnlineGo = 130;
+  double GoOnlineHeight = OnlineGo;
+
+  int counter = 0;
 
   @override
   void initState() {
@@ -69,11 +72,19 @@ class _HomePageState extends State<HomePage> {
   void toggle_activeButton() {
     setState(() {
       _activeButton = !_activeButton;
+      if (counter == 1) {
+        counter - 1;
+      } else {
+        counter + 1;
+      }
     });
   }
 
   @override
   Widget build(BuildContext context) {
+    final paneHeightClosed = MediaQuery.of(context).size.height * 0.19;
+    final paneHeightOpen = MediaQuery.of(context).size.height * 0.191;
+
     return Theme(
       data: Theme.of(context).copyWith(canvasColor: Color(0xFFFFFCEA)),
       child: Scaffold(
@@ -185,7 +196,7 @@ class _HomePageState extends State<HomePage> {
             ],
           ),
         ),
-        floatingActionButton: FloatingActionButton.extended(
+        /*floatingActionButton: FloatingActionButton.extended(
           onPressed: (){
             toggle_activeButton();
             showDialog(
@@ -221,52 +232,123 @@ class _HomePageState extends State<HomePage> {
           ),
           icon: Icon(Icons.power_settings_new_rounded),
         ),
-        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-        body: sourcePosition == null
-            ? Center(child: CircularProgressIndicator())
-            : Stack(
-          children: [
-            GoogleMap(
-              zoomControlsEnabled: false,
-              polylines: Set<Polyline>.of(polylines.values),
-              initialCameraPosition: CameraPosition(
-                target: curLocation,
-                zoom: 16,
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,*/
+        body: Stack(
+          alignment: Alignment.topCenter,
+          children: <Widget>[
+            SlidingUpPanel(
+              controller: panelController,
+              minHeight: paneHeightClosed,
+              maxHeight: paneHeightOpen,
+              parallaxEnabled: true,
+              parallaxOffset: 0.5,
+              color: Color(0xFFFED90F),
+              onPanelSlide: (position) => setState(() {
+                final panelMaxScrollExtent = paneHeightOpen - paneHeightClosed;
+
+                GoOnlineHeight = position * panelMaxScrollExtent + OnlineGo;
+              }),
+              body: sourcePosition == null
+                  ? Center(child: CircularProgressIndicator())
+                  : Stack(
+                children: [
+                  GoogleMap(
+                    zoomControlsEnabled: false,
+                    polylines: Set<Polyline>.of(polylines.values),
+                    initialCameraPosition: CameraPosition(
+                      target: curLocation,
+                      zoom: 16,
+                    ),
+                    markers: {sourcePosition!, destinationPosition!},
+                    onTap: (latLng) {
+                      print(latLng);
+                    },
+                    onMapCreated: (GoogleMapController controller) {
+                      _controller.complete(controller);
+                    },
+                  ),
+                  Positioned(
+                      bottom: 10,
+                      right: 10,
+                      child: Container(
+                        width: 50,
+                        height: 50,
+                        decoration: BoxDecoration(
+                            shape: BoxShape.circle, color: Colors.blue),
+                        child: Center(
+                          child: IconButton(
+                            icon: Icon(
+                              Icons.navigation_outlined,
+                              color: Colors.white,
+                            ),
+                            onPressed: () async {
+                              await launchUrl(Uri.parse(
+                                  'google.navigation:q=(13.793034, 121.0710068)&key=AIzaSyCGZt0_a-TM1IKRQOLJCaMJsV0ZXuHl7Io'));
+                            },
+                          ),
+                        ),
+                      ))
+                ],
               ),
-              markers: {sourcePosition!, destinationPosition!},
-              onTap: (latLng) {
-                print(latLng);
-              },
-              onMapCreated: (GoogleMapController controller) {
-                _controller.complete(controller);
-              },
+              panelBuilder: (controller) => PanelWidget(
+                controller: controller,
+                panelController: panelController,
+              ),
+              borderRadius: BorderRadius.vertical(top: Radius.circular(30)),
             ),
             Positioned(
-                bottom: 10,
-                right: 10,
-                child: Container(
-                  width: 50,
-                  height: 50,
-                  decoration: BoxDecoration(
-                      shape: BoxShape.circle, color: Colors.blue),
-                  child: Center(
-                    child: IconButton(
-                      icon: Icon(
-                        Icons.navigation_outlined,
-                        color: Colors.white,
-                      ),
-                      onPressed: () async {
-                        await launchUrl(Uri.parse(
-                            'google.navigation:q=(13.793034, 121.0710068)&key=AIzaSyCGZt0_a-TM1IKRQOLJCaMJsV0ZXuHl7Io'));
-                      },
-                    ),
-                  ),
-                ))
+              bottom: GoOnlineHeight,
+              child: Container(
+                height: 30,
+                width: 120,
+                child: GoOnline(context),
+              ),
+            ),
           ],
         ),
       ),
     );
   }
+
+  Widget GoOnline(BuildContext context) => FloatingActionButton.extended(
+    label: Text(
+      _activeButton
+          ? 'Go Online'
+          : 'Go Offline',
+      style: TextStyle(fontFamily: 'Montserrat', fontSize: 12),
+    ),
+    backgroundColor: Color(
+      _activeButton
+          ? 0xFF0CBC8B
+          : 0xFFE74338,
+    ),
+    onPressed: (){
+      toggle_activeButton();
+      if (counter == 1){
+        showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+            title: Text("List of Nearby Passengers",
+              style: TextStyle(fontFamily: 'Montserrat', fontSize: 16, letterSpacing: -1, fontWeight: FontWeight.bold),
+              textAlign: TextAlign.center,
+            ),
+            content: Text(
+              "---Passengers---",
+              style: TextStyle(fontFamily: 'Montserrat', fontSize: 12, letterSpacing: 2, fontStyle: FontStyle.italic),
+              textAlign: TextAlign.center,
+            ),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(context),
+                child: Text("CANCEL"),
+              ),
+            ],
+          ),
+        );
+      };
+    },
+    icon: Icon(Icons.power_settings_new_rounded, size: 17),
+  );
 
   getNavigation() async {
     bool _serviceEnabled;
@@ -385,4 +467,174 @@ class _HomePageState extends State<HomePage> {
       );
     });
   }
+}
+
+class PanelWidget extends StatelessWidget {
+  final ScrollController controller;
+  final PanelController panelController;
+
+  const PanelWidget({
+    Key? key,
+    required this.controller,
+    required this.panelController,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) => ListView(
+    padding: EdgeInsets.zero,
+    controller: controller,
+    children: <Widget>[
+      SizedBox(height: 5),
+      buildAboutText(),
+    ],
+  );
+
+  Widget buildAboutText() => Container(
+    child: Center(
+      child: Column(
+        children: <Widget>[
+          Card(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(15.0),
+            ),
+            child: SizedBox(
+              width: 320,
+              height: 30,
+              child: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Icon(
+                          Icons.circle,
+                          size: 20,
+                          color: Colors.red,
+                        ),
+                        SizedBox(width: 5),
+                        Text(
+                          'You’re offline.',
+                          style: TextStyle(
+                            fontFamily: 'Montserrat',
+                            fontSize: 12,
+                            letterSpacing: -0.5,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Card(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(15.0),
+                ),
+                child: SizedBox(
+                  width: 180,
+                  height: 60,
+                  child: Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            Icon(
+                              Icons.monetization_on,
+                              size: 40,
+                              color: Color(0xFF0CBC8B),
+                            ),
+                            SizedBox(width: 5),
+                            Column(
+                              children: <Widget>[
+                                Text('Earning Balance:',
+                                  style: TextStyle(
+                                    fontFamily: 'Montserrat',
+                                    fontSize: 13,
+                                    fontWeight: FontWeight.w200,
+                                  ),
+                                ),
+                                SizedBox(height: 2),
+                                Row(
+                                  children: <Widget>[
+                                    Text('₱ 1,500',
+                                      style: TextStyle(
+                                        fontFamily: 'Montserrat',
+                                        fontSize: 13,
+                                        fontWeight: FontWeight.w200,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+              Card(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(15.0),
+                ),
+                child: SizedBox(
+                  width: 130,
+                  height: 60,
+                  child: Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            SizedBox(width: 5),
+                            Column(
+                              children: <Widget>[
+                                Text('Total Passengers',
+                                  style: TextStyle(
+                                    fontFamily: 'Montserrat',
+                                    fontSize: 13,
+                                    fontWeight: FontWeight.w200,
+                                  ),
+                                ),
+                                Row(
+                                  children: <Widget>[
+                                    Text('4',
+                                      style: TextStyle(
+                                        fontFamily: 'Montserrat',
+                                        fontSize: 32,
+                                        color: Color(0xFFCCCCCC),
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+    ),
+  );
+
+  void togglePanel() => panelController.isPanelOpen
+      ? panelController.close()
+      : panelController.open();
 }
