@@ -79,6 +79,7 @@ class _HomePageState extends State<HomePage> {
       child: Scaffold(
         backgroundColor: Color(0xFFFFFCEA),
         appBar: AppBar(
+          centerTitle: true,
           title: Text("Home"),
           backgroundColor: Color(0xFFFED90F),
         ),
@@ -201,8 +202,8 @@ class _HomePageState extends State<HomePage> {
                 ),
                 actions: [
                   TextButton(
-                      onPressed: () => Navigator.pop(context),
-                      child: Text("CANCEL"),
+                    onPressed: () => Navigator.pop(context),
+                    child: Text("CANCEL"),
                   ),
                 ],
               ),
