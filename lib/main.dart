@@ -2,6 +2,7 @@ import 'package:ehatid_passenger_app/Screens/Welcome/welcome_screen.dart';
 import 'package:ehatid_passenger_app/constants.dart';
 import 'package:ehatid_passenger_app/Screens/Home/homescreen.dart';
 import 'package:ehatid_passenger_app/navigation.dart';
+import 'package:ehatid_passenger_app/test_map.dart';
 import 'package:ehatid_passenger_app/testing_page.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';

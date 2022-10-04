@@ -1,5 +1,6 @@
 import 'package:ehatid_passenger_app/Screens/Login/components/forget_pw.dart';
 import 'package:ehatid_passenger_app/Screens/Home/homescreen.dart';
+import 'package:ehatid_passenger_app/Screens/Login/components/register.dart';
 import 'package:ehatid_passenger_app/main_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -204,7 +205,7 @@ class _SignInState extends State<SignIn> {
                             TextButton(
                               onPressed: () {
                                 Navigator.pushReplacement(context, MaterialPageRoute(
-                                  builder: (_) => SignUp(),
+                                  builder: (_) => RegisterPage(),
                                 ),
                                 );
                               },
